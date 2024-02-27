@@ -23,13 +23,7 @@ Try the old version here https://qr-code-styling.com to get a feel
 ### Installation
 
 ```
-npm install styled-qr-code
-```
-
-or
-
-```
-yarn add styled-qr-code
+npm install oezi/mixody-qr-code-styling
 ```
 
 ### Usage
