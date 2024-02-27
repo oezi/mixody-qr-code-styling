@@ -181,12 +181,19 @@ export default class QRCanvas {
 
     canvasContext.beginPath();
 
+    const isDark = (qr: QRCode, i: number, j: number) => {
+      if (filter && !filter(i, j)) {
+        return false;
+      }
+      if (!qr.isDark(i, j)) {
+        return false;
+      }
+      return true;
+    };
+
     for (let i = 0; i < count; i++) {
       for (let j = 0; j < count; j++) {
-        if (filter && !filter(i, j)) {
-          continue;
-        }
-        if (!this._qr.isDark(i, j)) {
+        if (!isDark(this._qr, i, j)) {
           continue;
         }
 
@@ -203,12 +210,10 @@ export default class QRCanvas {
 
             if (this._options.useLegacyDotRotation) {
               if (i + xOffset < 0 || j + yOffset < 0 || i + xOffset >= count || j + yOffset >= count) return false;
-              if (filter && !filter(i + xOffset, j + yOffset)) return false;
-              return !!this._qr && this._qr.isDark(i + xOffset, j + yOffset);
+              return !!this._qr && isDark(this._qr, i + xOffset, j + yOffset);
             } else {
               if (j + xOffset < 0 || i + yOffset < 0 || j + xOffset >= count || i + yOffset >= count) return false;
-              if (filter && !filter(j + xOffset, i + yOffset)) return false;
-              return !!this._qr && this._qr.isDark(i + yOffset, j + xOffset);
+              return !!this._qr && isDark(this._qr, i + yOffset, j + xOffset);
             }
           }
         );
